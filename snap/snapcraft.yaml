@@ -1,0 +1,33 @@
+name: snap-nodered
+version: '1.0.0'
+summary: A visual tool for wiring the Internet of Things
+description: |
+  Node-RED is a programming tool for wiring together hardware devices, 
+  APIs and online services in new and interesting ways.
+  It provides a browser-based editor that makes it easy to wire together 
+  flows using the wide range of nodes in the palette that can be deployed 
+  to its runtime in a single-click.
+icon: editor/images/deploy-full.png
+grade: stable
+confinement: strict
+
+apps:
+  node-service:
+    command: nodered-service
+    daemon: simple
+    restart-condition: always
+    plugs: [network-bind]
+  cli:
+    command: nodered
+    plugs: [network]
+
+parts:
+  nodered:
+    source: .
+    plugin: nodejs
+  # workaround until we have snapcraft hooks support
+  # hook:
+  #   source: .
+  #   plugin: dump
+  #   stage: [meta]
+  #   prime: [meta]
